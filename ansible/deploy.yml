@@ -1,0 +1,13 @@
+- name: Jenkins Ansible Demo Deploy
+  hosts: local
+  gather_facts: false
+
+  tasks:
+    - name: Create deploy file
+      copy:
+        content: "Deployed by Jenkins + Ansible 🚀\n"
+        dest: /tmp/jenkins_ansible_demo.txt
+
+    - name: Show deploy message
+      debug:
+        msg: "Deployment finished successfully!"
