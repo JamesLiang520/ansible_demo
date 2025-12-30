@@ -12,7 +12,7 @@ pipeline {
       steps {
         sh '''
           ansible --version
-          ansible-playbook -i ansible/inventory.ini ansible/deploy.yml
+          ansible-playbook -i inventory.ini playbook.yml --config /var/jenkins_home/ansible.cfg
         '''
       }
     }
