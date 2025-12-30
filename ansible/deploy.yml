@@ -1,13 +1,29 @@
-- name: Jenkins Ansible Demo Deploy
-  hosts: local
-  gather_facts: false
+- name: Jenkins + Ansible SSH & File Transfer Demo
+  hosts: docker
+  become: yes
 
   tasks:
-    - name: Create deploy file
-      copy:
-        content: "Deployed by Jenkins + Ansible 🚀\n"
-        dest: /tmp/jenkins_ansible_demo.txt
+    - name: Check SSH connectivity
+      ping:
 
-    - name: Show deploy message
+    - name: Ensure target directory exists
+      file:
+        path: /opt/demo
+        state: directory
+        mode: '0755'
+
+    - name: Copy file to target machine
+      copy:
+        src: files/app.conf        # 相对 ansible/ 目录
+        dest: /opt/demo/app.conf
+        owner: deploy
+        group: deploy
+        mode: '0644'
+
+    - name: Verify file content
+      shell: cat /opt/demo/app.conf
+      register: result
+
+    - name: Show file content in Jenkins log
       debug:
-        msg: "Deployment finished successfully!"
+        msg: "{{ result.stdout }}"
