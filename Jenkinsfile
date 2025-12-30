@@ -10,16 +10,18 @@ pipeline {
 
     stage('Ansible Deploy') {
       steps {
-        sh '''
-          # 指定 ansible.cfg 文件
-          export ANSIBLE_CONFIG=/var/jenkins_home/ansible.cfg
-          
-          # 查看 ansible 配置是否生效
-          ansible --version
-          
-          # 执行 playbook
-          ansible-playbook -i inventory.ini playbook.yml
-        '''
+        dir("${env.WORKSPACE}") { // 切换到工作目录
+          sh '''
+            # 使用工作目录下的 ansible.cfg
+            export ANSIBLE_CONFIG=${WORKSPACE}/ansible.cfg
+            
+            # 查看 ansible 配置是否生效
+            ansible --version
+            
+            # 执行 playbook
+            ansible-playbook -i inventory.ini playbook.yml
+          '''
+        }
       }
     }
   }
