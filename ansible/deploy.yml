@@ -15,13 +15,13 @@
     - name: Copy file to target machine
       copy:
         src: files/app.conf        # 相对 ansible/ 目录
-        dest: /opt/demo/app.conf
+        dest: /tmp/app.conf
         owner: deploy
         group: deploy
         mode: '0644'
 
     - name: Verify file content
-      shell: cat /opt/demo/app.conf
+      shell: cat /tmp/app.conf
       register: result
 
     - name: Show file content in Jenkins log
