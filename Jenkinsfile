@@ -12,7 +12,7 @@ pipeline {
       steps {
         sh '''
           ansible --version
-          ansible-playbook ansible/deploy.yml
+          ansible-playbook -i ansible/inventory.ini ansible/deploy.yml
         '''
       }
     }
